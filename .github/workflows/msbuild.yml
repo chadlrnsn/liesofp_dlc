@@ -56,25 +56,16 @@ jobs:
       timeout-minutes: 10  # Увеличиваем время на случай больших сборок
       run: msbuild /m /p:Configuration=${{ matrix.configuration }} ${{ env.SOLUTION_FILE_PATH }}
 
-    - name: Check bin directory and list contents
-      run: |
-        echo "Listing contents of the bin directory..."
-        dir ${{ github.workspace }}\\bin\\${{ matrix.configuration }}-x64
-        if [ ! -d "${{ github.workspace }}\\bin\\${{ matrix.configuration }}-x64" ]; then
-          echo "Directory bin\\${{ matrix.configuration }}-x64 does not exist!"
-          exit 1
-        fi
-
     - name: Zip build artifacts
       run: |
-        7z a bin-${{ matrix.configuration }}-${{ env.BUILD_ID }}.zip ${{ github.workspace }}\\bin\\${{ matrix.configuration }}-x64\\*
+        7z a bin-${{ matrix.configuration }}-${{ env.BUILD_ID }}.zip ${{ github.workspace }}\bin\${{ matrix.configuration }}-x64\*
 
-        # Загрузка артефактов
-        - name: Upload build artifacts
-          uses: actions/upload-artifact@v3
-          with:
-            name: my-artifact-${{ matrix.configuration }}
-            path: bin-${{ matrix.configuration }}-${{ env.BUILD_ID }}.zip
+    # Загрузка артефактов
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact-${{ matrix.configuration }}
+        path: bin-${{ matrix.configuration }}-${{ env.BUILD_ID }}.zip
 
   # Опционально: публикация релиза
   # release:
