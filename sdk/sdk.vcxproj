@@ -169,7 +169,6 @@
     <ClInclude Include="include\minhook\src\hde\table64.h" />
     <ClInclude Include="include\minhook\src\trampoline.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="util.h" />
     <ClInclude Include="util\util.h" />
   </ItemGroup>
   <ItemGroup>

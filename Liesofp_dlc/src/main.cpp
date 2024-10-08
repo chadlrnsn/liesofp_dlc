@@ -5,8 +5,7 @@
 #include <dlcs/speedhack.h>
 #include <dlcs/noclip.h>
 
-#include <util.h>
-#include <util/util.h>
+#include <utils/utils.h>
 
 using namespace SDK;
 using namespace globals;
@@ -59,45 +58,14 @@ void updateGlobals() noexcept {
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-        if (util::game::IsGameExploitable()) {
-            spdhck.Run(local_player);
-            god.Run();
-            noclip.Run();
-        }
 
-
-        //if (!world) {
-        //    LOG_WARN("no world found!");
-        //    continue;
+        //if (util::IsGameExploitable()) {
+        //    spdhck.Run(local_player);
+        //    god.Run();
+        //    noclip.Run();
         //}
 
-        //auto game_instance = world->OwningGameInstance;
-
-        //if (!game_instance) {
-        //    LOG_WARN("game_instance does not exist!");
-        //    continue;
-        //}
-       
-        //auto local_players = game_instance->LocalPlayers;
-
-        //
-        //if (!local_players or local_players.Num() < 1) {
-        //    LOG_WARN("local players does not exist!");
-        //    continue;
-        //}
-
-        //auto local_player = local_players[0];
-        //if (!local_player)
-        //{
-        //    LOG_WARN("local player not found!");
-        //    continue;
-        //}
-
-        //if (local_player->PlayerController and local_player->PlayerController->Pawn)
-        //{
-        //    
-        //}
-
+        utils::UpdateGlobals();
     }
 
 }
@@ -121,6 +89,11 @@ DWORD WINAPI MainThread(LPVOID lpParam) {
 
     while (!g_break)
     {
+
+        if (utils::IsGameExploitable()) {
+            spdhck.Run(local_player);
+        }
+
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 

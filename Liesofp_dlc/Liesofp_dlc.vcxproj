@@ -161,11 +161,11 @@
     <ClCompile Include="src\dlcs\godmode.cpp" />
     <ClCompile Include="src\dlcs\speedhack.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\util\util.cpp" />
     <ClCompile Include="src\framework\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\utils\utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\dlcs\noclip.h" />
@@ -173,8 +173,8 @@
     <ClInclude Include="src\dlcs\speedhack.h" />
     <ClInclude Include="src\framework\framework.h" />
     <ClInclude Include="src\globals.h" />
-    <ClInclude Include="src\util\util.h" />
     <ClInclude Include="src\framework\stdafx.h" />
+    <ClInclude Include="src\utils\utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
