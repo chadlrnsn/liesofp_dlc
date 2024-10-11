@@ -2,12 +2,11 @@ name: MSBuild
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, dev ]
 
 env:
-  # Path to the solution file relative to the root of the project.
   SOLUTION_FILE_PATH: ./Liesofp_dlc.sln
   tag1: V${{ github.run_number }}
   BUILD_ID: ${{ github.run_id }}  # Уникальный идентификатор для сборки
@@ -21,51 +20,31 @@ jobs:
 
     strategy:
       matrix:
-        configuration: [Release, Debug]  # Матрица для двух конфигураций
-        include:
-          - configuration: Release
-          - configuration: Debug
+        configuration: [Release, Debug]
+        platform: [x64]
 
     steps:
-    # Проверка репозитория
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
 
-    # Кэширование пакетов NuGet для ускорения сборки
-    - name: Cache NuGet packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
-
-    # Установка MSBuild
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v2
 
-    # Восстановление NuGet пакетов
-    - name: Restore NuGet packages
-      working-directory: ${{ env.GITHUB_WORKSPACE }}
-      run: nuget restore ${{ env.SOLUTION_FILE_PATH }}
-
-    # Сборка проекта
     - name: Build
       working-directory: ${{ env.GITHUB_WORKSPACE }}
-      timeout-minutes: 10  # Увеличиваем время на случай больших сборок
-      run: msbuild /m /p:Configuration=${{ matrix.configuration }} ${{ env.SOLUTION_FILE_PATH }}
+      run: |
+        msbuild /m /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} ${{env.SOLUTION_FILE_PATH}}
 
     - name: Zip build artifacts
       run: |
-        7z a bin-${{ matrix.configuration }}-${{ env.BUILD_ID }}.zip ${{ github.workspace }}\bin\${{ matrix.configuration }}-x64\*
+        7z a bin-${{ matrix.configuration }}-${{ matrix.platform }}.zip ${{ github.workspace }}\bin\${{ matrix.configuration }}-${{ matrix.platform }}\*
 
-    # Загрузка артефактов
     - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: LiesOfP-${{ matrix.configuration }}
-        path: bin-${{ matrix.configuration }}-${{ env.BUILD_ID }}.zip
+        name: Artifact-${{ matrix.configuration }}-${{ matrix.platform }}
+        path: bin-${{ matrix.configuration }}-${{ matrix.platform }}.zip
 
   # Опционально: публикация релиза
   # release:

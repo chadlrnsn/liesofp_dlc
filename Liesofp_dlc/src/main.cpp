@@ -2,7 +2,7 @@
 #include <globals.h>
 
 #include <dlcs/godmode.h>
-#include <dlcs/speedhack.h>
+#include <dlcs/CharacterSpeed.h>
 #include <dlcs/noclip.h>
 
 #include <utils/utils.h>
@@ -55,16 +55,7 @@ void HandleKey()
 void updateGlobals() noexcept {
 
     while (!g_break) {
-
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
-
-        //if (util::IsGameExploitable()) {
-        //    spdhck.Run(local_player);
-        //    god.Run();
-        //    noclip.Run();
-        //}
-
         utils::UpdateGlobals();
     }
 
@@ -92,6 +83,7 @@ DWORD WINAPI MainThread(LPVOID lpParam) {
 
         if (utils::IsGameExploitable()) {
             spdhck.Run(local_player);
+            god.Run();
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));

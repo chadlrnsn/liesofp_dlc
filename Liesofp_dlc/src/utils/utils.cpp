@@ -76,6 +76,24 @@ void utils::UpdateGlobals() noexcept
         return;
     }
 
+    character = player_controller->Character;
+    if (!character) {
+        LOG_DEBUG("no character");
+        return;
+    }
+
+    AL_Character = reinterpret_cast<SDK::ALCharacter*>(character);
+    if (!AL_Character) {
+        LOG_DEBUG("unable cast character to AL_Character");
+        return;
+    }
+
+    ALPC_Character = reinterpret_cast<SDK::ALPCCharacter*>(AL_Character);
+    if (!ALPC_Character) {
+        LOG_DEBUG("unable cast AL_Character to ALPC_Character");
+        return;
+    }
+
     if (!IsPointerReadable(&player_controller->AcknowledgedPawn)) {
         LOG_ERROR("Pointer on OwningGameInstance not readable!");
         return;

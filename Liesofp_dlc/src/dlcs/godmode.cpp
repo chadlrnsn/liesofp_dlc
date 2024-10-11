@@ -23,16 +23,17 @@ void godmode::Run()
 
 	if (!enable) return;
 
-	if (enable && globals::pawn && bOnce) {
+	if (!globals::character) return;
 
-		globals::pawn->bCanBeDamaged = false;
+
+	if (enable && bOnce) {
+
 
 		bOnce = false;
 		printf("Player will not be damaged\n");
 	}
 
-	if (!enable && globals::pawn && !bOnce) {
-		globals::pawn->bCanBeDamaged = true;
+	if (!enable && !bOnce) {
 
 		bOnce = true;
 		printf("Player be damagable\n");

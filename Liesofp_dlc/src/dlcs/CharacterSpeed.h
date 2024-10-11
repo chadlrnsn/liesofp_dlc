@@ -10,15 +10,17 @@ public:
 
 private:
 	bool enable = false;
-	
-	enum class Type {
+	bool m_bShouldResetSpeed = false;
+	bool bOnce = true;
+
+	enum class DLCType {
 		NONE,
 		ACCELERATE,
 		DILLATION,
 		MAX_COUNT,
 	};
 
-	Type DLCType = Type::ACCELERATE;
+	DLCType DLC_Type = DLCType::ACCELERATE;
 
 	struct speed {
 		float max;
@@ -32,7 +34,7 @@ private:
 	bool Toggle();
 	void Bind();
 	int ChangeType();
-	std::string GetTypeName(Type);
+	std::string GetTypeName(DLCType);
 
 };
 
