@@ -52,8 +52,14 @@ void utils::UpdateGlobals() noexcept
         return;
     }
 
-    if (local_players.Num() < 1) {
-        LOG_WARN("local_players < 1");
+    unsigned int numPlayers = local_players.Num();
+    if (numPlayers < 1) {
+        LOG_WARN("LocalPlayers array is empty");
+        return;
+    }
+
+    if (!local_players.IsValidIndex(0)) {
+        LOG_ERROR("LocalPlayer not valid at index 0");
         return;
     }
 

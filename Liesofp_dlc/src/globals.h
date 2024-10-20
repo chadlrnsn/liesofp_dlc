@@ -18,8 +18,6 @@ namespace globals {
     inline ALPCCharacter* ALPC_Character;
 
     inline APawn* pawn;
-
-
 }
 
 //namespace 

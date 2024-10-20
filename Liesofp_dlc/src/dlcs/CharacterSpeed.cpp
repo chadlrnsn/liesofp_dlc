@@ -1,6 +1,7 @@
 #include <stdafx.h>
 #include "CharacterSpeed.h"
 #include <player_utils/player_utils.h>
+#include <utils/utils.h>
 
 bool speedhack::Toggle()
 {
@@ -42,11 +43,9 @@ std::string speedhack::GetTypeName(DLCType currentType)
 	return "";
 }
 
-void speedhack::Run(SDK::ULocalPlayer* local_player)
+void speedhack::Run()
 {
 	Bind();
-
-	if (!local_player) return;
 
 	if (!globals::ALPC_Character or !globals::character) return;
 
@@ -54,6 +53,7 @@ void speedhack::Run(SDK::ULocalPlayer* local_player)
 	if (!c_pawn) return;
 
 	auto c_movement = globals::ALPC_Character->CharacterMovement;
+	if (!c_movement) return;
 
 	if (enable) {
 		ChangeType();

@@ -6,7 +6,7 @@ class speedhack
 {
 public:
 
-	void Run(SDK::ULocalPlayer*);
+	void Run();
 
 private:
 	bool enable = false;

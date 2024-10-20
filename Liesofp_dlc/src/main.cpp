@@ -63,7 +63,10 @@ void updateGlobals() noexcept {
 
 DWORD WINAPI MainThread(LPVOID lpParam) {
     
+#ifdef _DEBUG
     alloccoonsole();
+#endif // _DEBUG
+
 
     LOG_INFO("Enjoy DLC!");
 
@@ -80,10 +83,8 @@ DWORD WINAPI MainThread(LPVOID lpParam) {
 
     while (!g_break)
     {
-
         if (utils::IsGameExploitable()) {
-            spdhck.Run(local_player);
-            god.Run();
+            spdhck.Run();
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
