@@ -36,7 +36,10 @@
     <ClCompile Include="src\player_utils\player_utils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\hooks.cpp">
+    <ClCompile Include="src\hooks\hooks.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleHandler.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,7 +68,13 @@
     <ClInclude Include="src\player_utils\player_utils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\hooks.h">
+    <ClInclude Include="src\hooks\hooks.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleHandler.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dlcs\Includes.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

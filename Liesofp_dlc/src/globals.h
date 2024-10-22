@@ -6,7 +6,7 @@
 
 using namespace SDK;
 namespace globals {
-    inline std::atomic_bool(g_break) = false;
+    inline std::atomic<bool> g_break{ false };
 
     inline UGameInstance* game_instance;
     inline TArray<ULocalPlayer*> local_players;
