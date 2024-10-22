@@ -3,6 +3,7 @@
 #include <dlcs/Includes.h>
 #include <utils/utils.h>
 #include <ConsoleHandler.h>
+#include <hooks/hooks.h>
 
 using namespace SDK;
 using namespace globals;
@@ -14,7 +15,6 @@ void HandleKey();
 DWORD WINAPI MainThread(HMODULE hmod, LPVOID lpParam);
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved);
 void updateGlobals() noexcept;
-void setupHooks();
 
 bool alloccoonsole()
 {
@@ -59,11 +59,6 @@ void updateGlobals() noexcept {
 
 }
 
-void setupHooks() {
-
-}
-
-
 DWORD WINAPI MainThread(HMODULE hmod, LPVOID lpParam) {
 
     if (!ConsoleHandler::Instance().Initialize()) {
@@ -77,7 +72,7 @@ DWORD WINAPI MainThread(HMODULE hmod, LPVOID lpParam) {
     try {
         threads.emplace_back(std::make_unique<std::thread>(HandleKey));
         threads.emplace_back(std::make_unique<std::thread>(updateGlobals));
-        threads.emplace_back(std::make_unique<std::thread>(setupHooks));
+        threads.emplace_back(std::make_unique<std::thread>(hooks::init));
 
         for (const auto& thread : threads) {
             LOG_DEBUG("Thread created! 0x%llx", thread->get_id());
@@ -90,16 +85,10 @@ DWORD WINAPI MainThread(HMODULE hmod, LPVOID lpParam) {
     }
 
     while (!g_break.load(std::memory_order_relaxed)) {
-        try {
-            if (utils::IsGameExploitable()) {
-                spdhck.Run();
-            }
-        }
-        catch (const std::exception& e) {
-            LOG_ERROR("Error in main loop: %s", e.what());
-        }
-
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (utils::IsGameExploitable()) {
+            spdhck.Run();
+        }
     }
 
     threads.clear();
@@ -121,7 +110,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
         break;
 
     case DLL_PROCESS_DETACH:
-
+        hooks::unhook();
         ConsoleHandler::Cleanup();
         ConsoleHandler::Destroy();
         FreeLibrary(hModule);

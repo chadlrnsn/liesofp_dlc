@@ -63,6 +63,11 @@ void utils::UpdateGlobals() noexcept
         return;
     }
 
+    if (!IsAddressReadable(&local_players[0], sizeof(TArray<ULocalPlayer*>))) {
+        LOG_ERROR("Player array not readable!");
+        return;
+    }
+    
     local_player = local_players[0];
 
     if (!local_player) {
@@ -137,4 +142,60 @@ bool utils::IsAddressReadable(const void* ptr, size_t size) {
     if (mbi.Protect & (PAGE_GUARD | PAGE_NOACCESS))
         return false;
     return (reinterpret_cast<uintptr_t>(ptr) + size) <= (reinterpret_cast<uintptr_t>(mbi.BaseAddress) + mbi.RegionSize);
+}
+
+
+
+void ue4::UE_RenderText(
+    UCanvas* canvas,
+    UFont* font,
+    FString text,
+    FVector2D Position,
+    FVector2D Scale,
+    FLinearColor color
+)
+{
+    canvas->K2_DrawText(
+        font,
+        text,
+        Position,
+        Scale, // text offset
+        color, // Text color
+        false,
+        FLinearColor(0, 0, 0, 1), // Shadow color
+        FVector2D(0, 0), // Shadow offset
+        false,
+        false,
+        false,
+        FLinearColor(0, 0, 0, 1)
+    );
+}
+
+void ue4::UE_RenderTextEx(
+    UCanvas* canvas,
+    UFont* font,
+    FString text,
+    FVector2D Position,
+    FVector2D Scale,
+    FLinearColor color,
+    bool centeredX,
+    bool centeredY,
+    bool outline,
+    FLinearColor outlineColor
+)
+{
+    canvas->K2_DrawText(
+        font,
+        text,
+        Position,
+        Scale, // text offset
+        color, // Text color
+        false,
+        FLinearColor(0, 0, 0, 1), // Shadow color
+        FVector2D(0, 0), // Shadow offset
+        centeredX,
+        centeredY,
+        outline,
+        outlineColor
+    );
 }

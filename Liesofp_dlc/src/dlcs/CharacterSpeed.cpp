@@ -47,9 +47,9 @@ void speedhack::Run()
 {
 	Bind();
 
-	if (!globals::ALPC_Character or !globals::character) return;
+	if (!utils::IsGameExploitable()) return;
 
-	auto c_pawn = globals::player_controller->Pawn;
+	auto c_pawn = globals::pawn;
 	if (!c_pawn) return;
 
 	auto c_movement = globals::ALPC_Character->CharacterMovement;
