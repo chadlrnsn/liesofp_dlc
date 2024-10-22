@@ -64,43 +64,6 @@ void setupHooks() {
 }
 
 
-//DWORD WINAPI MainThread(HMODULE hmod, LPVOID lpParam) {
-//    
-//#ifdef _DEBUG
-//    alloccoonsole();
-//#endif // _DEBUG
-//
-//    LOG_INFO("Enjoy DLC!");
-//
-//    std::thread keyHandle(HandleKey);
-//    std::thread globUpdate(updateGlobals);
-//    std::thread hooks(setupHooks);
-//
-//    keyHandle.detach();
-//    globUpdate.detach();
-//    hooks.detach();
-//
-//    LOG_DEBUG("Thread created! 0x%llx", &keyHandle);
-//    LOG_DEBUG("Thread created! 0x%llx", &globUpdate);
-//    LOG_DEBUG("Thread created! 0x%llx", &hooks);
-//
-//    while (!g_break)
-//    {
-//        if (utils::IsGameExploitable()) {
-//            spdhck.Run();
-//        }
-//
-//        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-//    }
-//
-//    LOG_INFO("Uninjected! You can close console");
-//
-//    FreeLibraryAndExitThread(hmod, 0);
-//    return 0;
-//}
-
-
-
 DWORD WINAPI MainThread(HMODULE hmod, LPVOID lpParam) {
 
     if (!ConsoleHandler::Instance().Initialize()) {
@@ -138,8 +101,6 @@ DWORD WINAPI MainThread(HMODULE hmod, LPVOID lpParam) {
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-
-    LOG_INFO("Uninjecting...");
 
     threads.clear();
 
